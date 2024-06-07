@@ -1,4 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { generateTimestampId } from "./services/generateTimestampId";
+import { LocalStorageService } from "./services/localstorage";
 
 export type Todos = {
   id: string
@@ -13,17 +15,20 @@ export type TodosContextProps = {
   addNewTodoTask: (todo: string, callback: () => void) => void
 };
 
-function generateTimestampID() {
-  return Date.now().toString();
-}
+const localStorageService = LocalStorageService();
 
 export const TodosContext = createContext<TodosContextProps | null>(null);
 
 export function TodosContextProvider({ children }: { children: React.ReactNode }) {
-  const [todos, setTodos] = useState<Todos[]>([])
+
+  const [todos, setTodos] = useState<Todos[]>(() => {
+    // This is causing server side rendering inconsistency, with more time I would fix this
+    const persistedTodos = localStorageService.get("todos");
+    return persistedTodos ? persistedTodos as Todos[] : [] as Todos[]
+  })
 
   const addNewTodoTask = (todo: string, callback: () => void) => {
-    const uniqueID = generateTimestampID();
+    const uniqueID = generateTimestampId();
     setTodos([...todos, { id: uniqueID, completed: false, text: todo }])
     callback()
   }
@@ -38,6 +43,10 @@ export function TodosContextProvider({ children }: { children: React.ReactNode }
       });
     });
   };
+
+  useEffect(() => {
+    localStorageService.set("todos", todos);
+  }, [todos]);
 
   return (
     <TodosContext.Provider
@@ -60,3 +69,4 @@ export function useTodos() {
   }
   return context;
 }
+
