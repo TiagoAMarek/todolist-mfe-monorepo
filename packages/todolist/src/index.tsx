@@ -1,37 +1,12 @@
-import { useEffect, useState } from "react";
-import { buttonStyle, inputStyle } from "./styles";
-import { Todos } from "./types";
+import { useTodos } from "@repo/state-manager";
+import { useState } from "react";
 import { List } from "./list";
+import { buttonStyle, inputStyle } from "./styles";
 
-function generateTimestampID() {
-  return Date.now().toString();
-}
 
 export function TodoList() {
   const [todo, setTodo] = useState<string>("")
-  const [todos, setTodos] = useState<Todos[]>([])
-
-
-  const addNewTodoTask = () => {
-    const uniqueID = generateTimestampID();
-    setTodos([...todos, { id: uniqueID, completed: false, text: todo }])
-    setTodo("")
-  }
-
-  const toggleTodoCompletion = (targetId: string) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo.id === targetId) {
-          return { ...todo, completed: !todo.completed };
-        }
-        return todo;
-      });
-    });
-  };
-
-  useEffect(() => {
-    console.log(todos)
-  }, [todos])
+  const { addNewTodoTask, todos } = useTodos();
 
   return (
     <>
@@ -44,12 +19,12 @@ export function TodoList() {
           value={todo}
         />
 
-        <button style={buttonStyle} onClick={addNewTodoTask}>
+        <button style={buttonStyle} onClick={() => addNewTodoTask(todo, () => setTodo(""))}>
           Add
         </button>
 
       </div>
-      <List todos={todos} toggleTodoCompletion={toggleTodoCompletion} />
+      <List todos={todos} />
     </>
   )
 }

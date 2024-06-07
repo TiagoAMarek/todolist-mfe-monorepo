@@ -23,6 +23,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@repo/state-manager':
+        specifier: workspace:*
+        version: link:../../packages/state-manager
       '@repo/todolist':
         specifier: workspace:*
         version: link:../../packages/todolist
@@ -69,6 +72,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@repo/state-manager':
+        specifier: workspace:*
+        version: link:../../packages/state-manager
       '@repo/todolist':
         specifier: workspace:*
         version: link:../../packages/todolist
@@ -137,11 +143,47 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
+  packages/state-manager:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/eslint':
+        specifier: ^8.56.5
+        version: 8.56.5
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.11.24
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.2.61
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.2.19
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.1(@types/node@20.11.24)(typescript@5.3.3))(typescript@5.3.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
   packages/todolist:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@repo/state-manager':
+        specifier: workspace:*
+        version: link:../state-manager
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config

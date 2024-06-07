@@ -1,12 +1,13 @@
+import { useTodos } from "@repo/state-manager";
 import { listItemStyle } from "./styles";
 import { Todos } from "./types";
 
 type ListProps = {
   todos: Todos[];
-  toggleTodoCompletion: (targetId: string) => void;
 }
 
-export function List({ todos, toggleTodoCompletion }: ListProps) {
+export function List({ todos }: ListProps) {
+  const { toggleTodoCompletion } = useTodos()
 
   return (
     <ul >
