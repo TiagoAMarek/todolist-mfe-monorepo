@@ -1,11 +1,10 @@
-import { Button } from "@repo/ui";
-import Image from "next/image";
+import { TodoList } from "@repo/todolist";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Button appName="web">Sample Button</Button>
+    <div className="font-sans flex w-full p-8">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
+        <TodoList></TodoList>
       </main>
     </div>
   );
